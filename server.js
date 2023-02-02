@@ -43,12 +43,12 @@ app.post('/friends', (req, res) => {
         });
     }
 
-const newFriend = {
-    name:req.body.name,
-    id: friends.length
-}
-friends.push(newFriend);
-res.json(newFriend);
+        const newFriend = {
+            name:req.body.name,
+            id: friends.length
+        }
+        friends.push(newFriend);
+        res.json(newFriend);
 
 } )
 
