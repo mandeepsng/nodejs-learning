@@ -19,17 +19,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-// friends router start==================================start=====================================================
-
-const friendsRouter = express.Router();
 // create friend using post
-friendsRouter.post('/', friendsController.postFriends );
-friendsRouter.get('/', friendsController.getFriends);
-friendsRouter.get('/:id' , friendsController.getFriendByid);
+app.post('/friends', friendsController.postFriends );
 
-app.use('/friends', friendsRouter );
+app.get('/friends', friendsController.getFriends);
 
-// friends router end==================================end=====================================================
+app.get('/friends/:id' , friendsController.getFriendByid);
+
 
 app.get('/', (req, res) => {
     res.send({
