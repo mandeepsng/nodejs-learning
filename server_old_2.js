@@ -1,9 +1,7 @@
 const express = require('express');
 
-const friendsRouter = require('./routes/friends.routes');
-
 const messageController = require('./controllers/messages.controller');
-
+const friendsController = require('./controllers/friends.controller');
 
 const app = express();
 
@@ -23,7 +21,11 @@ app.use(express.json());
 
 // friends router start==================================start=====================================================
 
-
+const friendsRouter = express.Router();
+// create friend using post
+friendsRouter.post('/', friendsController.postFriends );
+friendsRouter.get('/', friendsController.getFriends);
+friendsRouter.get('/:id' , friendsController.getFriendByid);
 
 app.use('/friends', friendsRouter );
 
