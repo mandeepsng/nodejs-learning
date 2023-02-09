@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     next();
     //actions go here......
     const delta = Date.now() - start;
-    console.log(`${req.method} ${req.url}  ${delta}ms `);
+    console.log(`${req.method} ${req.baseUrl}${req.url}  ${delta}ms `);
 
 })
 
@@ -27,6 +27,7 @@ app.use(express.json());
 
 
 app.use('/friends', friendsRouter );
+app.use('/messages', messagesRouter );
 
 // friends router end==================================end=====================================================
 
@@ -35,10 +36,12 @@ app.get('/', (req, res) => {
         id: 1,
         name: 'This is Dev'
     });
+
+    // console.log(__filename);
+    // console.log(__dirname );
 });
 
 
-app.get('/messages', messagesRouter );
 
 app.listen(PORT, () => {
     console.log(`Listing on ${PORT} .....`);
