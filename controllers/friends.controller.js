@@ -12,12 +12,13 @@ function postFriends(req, res)  {
         });
     }
 
-        const newFriend = {
-            name: req.body.name,
-            id: model.length
-        }
-        model.push(newFriend);
-        res.json(newFriend);
+    const newFriend = {
+        name: req.body.name,
+        id: model.length
+    }
+    
+    model.push(newFriend);
+    res.json(newFriend);
 
 }
 
