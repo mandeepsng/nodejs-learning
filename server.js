@@ -2,7 +2,8 @@ const express = require('express');
 
 const friendsRouter = require('./routes/friends.routes');
 
-const messageController = require('./controllers/messages.controller');
+const messagesRouter = require('./routes/messages.routes');
+
 
 
 const app = express();
@@ -37,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/messages', messageController.getMessages )
+app.get('/messages', messagesRouter );
 
 app.listen(PORT, () => {
     console.log(`Listing on ${PORT} .....`);
