@@ -1,6 +1,8 @@
 const path = require('path');
 
 const express = require('express');
+const path = require('path');
+
 
 const friendsRouter = require('./routes/friends.routes');
 
@@ -9,6 +11,9 @@ const messagesRouter = require('./routes/messages.routes');
 
 
 const app = express();
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 
 const PORT = 3000;
 
@@ -36,13 +41,10 @@ app.use('/messages', messagesRouter );
 // friends router end==================================end=====================================================
 
 app.get('/', (req, res) => {
-    res.send({
-        id: 1,
-        name: 'This is Dev'
+    res.render('index', {
+        title: 'Express.js Matery',
+        caption: 'let\'s go',
     });
-
-    // console.log(__filename);
-    // console.log(__dirname );
 });
 
 
