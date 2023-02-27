@@ -1,5 +1,10 @@
 const express = require('express');
 const path = require('path');
+const request = require('request');
+const cheerio = require('cheerio');
+const axios = require('axios');
+
+const puppeteer = require('puppeteer');
 
 
 const friendsRouter = require('./routes/friends.routes');
@@ -42,6 +47,56 @@ app.get('/', (req, res) => {
         caption: 'let\'s go',
     });
 });
+
+/////////////////////////////////////////////////////////////////////
+
+
+// request('https://codelist.cc/en/', (error, response, html) => {
+//   if (!error && response.statusCode == 200) {
+//     const $ = cheerio.load(html);
+//     const title = $('title').text();
+//     console.log(title);
+//   }
+// });
+app.get('/demo', (req, res) => {
+
+// axios.get('https://mojoauth.com/blog/rest-api-authentication/')
+//   .then(response => {
+//     const $ = cheerio.load(response.data);
+//     const title = $('title').text();
+//     console.log($);
+//     res.render('demo', {
+//         title: $,
+//         caption: 'let\'s go',
+//     });
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+
+
+
+// console.log('sdfsdf')
+});
+(async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+  
+    await page.goto('https://mojoauth.com/blog/rest-api-authentication');
+    const html = await page.content();
+    const $ = cheerio.load(html);
+  
+    const title = $('title').text();
+    console.log(title);
+  
+    await page.evaluate(() => {
+      console.log($); // Output the value of $ to the browser console
+    });
+  
+    await browser.close();
+  })();
+
+
 
 
 
