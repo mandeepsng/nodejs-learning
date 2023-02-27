@@ -1,3 +1,5 @@
+const path = require('path');
+
 const express = require('express');
 const path = require('path');
 const request = require('request');
@@ -29,6 +31,8 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.baseUrl}${req.url}  ${delta}ms `);
 
 })
+
+app.use('/site', express.static(path.join(__dirname, 'public'))  );
 
 app.use(express.json());
 
