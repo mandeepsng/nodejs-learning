@@ -190,7 +190,8 @@ if (!fs.existsSync(folderName)) {
 
         // return true;
     res.render('single', {
-        title: title,
+        title: 'Single post',
+        postname: title,
         caption: 'File written successfully',
         article: getmdfile_content,
         currentRoute: '/single',
