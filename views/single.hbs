@@ -50,7 +50,7 @@
         <div class="jumbotron mb-1">
           <div class="row">
             <div class="col-sm-12 col-md-12">
-                <form method="post" action="/contact">
+                <form method="post" action="/single">
                 <div class="form-group">
                         <label for="url">url:</label>
                         <input type="text" id="url" name="url" class="form-control">
@@ -65,61 +65,29 @@
       </div>
     </section>
 
-    
-    <section id="contact">
-      <div class="container">
-<h1 class="text-center mt-4 mb-5">Contact Me</h1>
-      <form>
-  <div class="row">
-    <div class="col-sm-12 col-md-6">
-      <input type="text" class="form-control" placeholder="Name">
-      <br/>
-      <input type="text" class="form-control" placeholder="Email Adress">
-      <br/>
-      <textarea class="form-control" rows="6" placeholder="Message"></textarea>
-      <br/>
-      <button type="submit" class="btn btn-primary">Send</button>
-      <br/>
-      <br/>
-    </div>
-    <div class="col-sm-12 col-md-6">
-      
-    </div>
-  </div>
-</form>
-
-      </div>
-    </section>
-    
-    <footer>
-    <section class="mb-4 mt-3">
+     <section class="mb-4 mt-3">
         <div class="container">
           <div class="row">
-            <div class="col-sm-12 col-md-6 text-center">
-              <h5 class="mt-4 mb-3">ABOUT THIS PAGE</h5>
-              <h6>Made with <i class="fas fa-coffee"></i> and <i class="fas fa-heart"></i> by Scrapper.</h6>
+            <div class="col-sm-12 col-md-12 text-center">
+              <h5 class="mt-4 mb-3">{{caption}}</h5>
+              {{article}}
+              {{!-- <h6>Made with <i class="fas fa-coffee"></i> and <i class="fas fa-heart"></i> by Scrapper.</h6> --}}
             </div>
-            
-            <div class="col-sm-12 col-md-6 text-center">
-              <h5 class="mt-4 mb-3 mr-3">AROUND THE WORLD</h5>
-              <a href="#"><i class="fab fa-facebook fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-linkedin fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-reddit-square fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-twitter-square fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-instagram fa-2x mr-1"></i></a>
-            </div>
-            
           </div>
           
           
         </div>
         </section>
+    
+    
+    <footer>
+    
       
       <section class="footer-2">
                 <div class="container">
           <div class="row">
             <div class="col-sm-12 text-center">
-              <h6 class="pt-4 pb-4">Scrapper © 2018. All Rights Reversed</h6>
+              {{!-- <h6 class="pt-4 pb-4">Scrapper © 2023. All Rights Reversed</h6> --}}
             </div>
   
           </div>

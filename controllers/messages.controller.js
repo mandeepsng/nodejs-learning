@@ -10,7 +10,12 @@ function postMessages(req, res) {
     res.send('<ul><li>updating messages.... </li></ul>');
 }
 
+async function fetch_data(req, res) {
+    res.send('<ul><li>updating messages.... </li></ul>');
+}
+
 module.exports = {
     getMessages,
     postMessages,
+    fetch_data,
 }

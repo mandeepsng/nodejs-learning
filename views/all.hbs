@@ -1,10 +1,9 @@
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Web Scrapper</title>
+  <title>All Post</title>
 
   <!--Boostrap 4.0.0 CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -25,14 +24,14 @@
                     </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item active ">
               <a class="nav-link" href="/single">Single Post</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/all">Bulk post</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact">Contact</a>
+              <a class="nav-link" href="#contact">{{req.originalUrl}}</a>
             </li>
 
           </ul>
@@ -50,7 +49,7 @@
         <div class="jumbotron mb-1">
           <div class="row">
             <div class="col-sm-12 col-md-12">
-                <form method="post" action="/contact">
+                <form method="post" action="/all">
                 <div class="form-group">
                         <label for="url">url:</label>
                         <input type="text" id="url" name="url" class="form-control">
@@ -64,54 +63,19 @@
         </div>
       </div>
     </section>
-
-    
-    <section id="contact">
-      <div class="container">
-<h1 class="text-center mt-4 mb-5">Contact Me</h1>
-      <form>
-  <div class="row">
-    <div class="col-sm-12 col-md-6">
-      <input type="text" class="form-control" placeholder="Name">
-      <br/>
-      <input type="text" class="form-control" placeholder="Email Adress">
-      <br/>
-      <textarea class="form-control" rows="6" placeholder="Message"></textarea>
-      <br/>
-      <button type="submit" class="btn btn-primary">Send</button>
-      <br/>
-      <br/>
-    </div>
-    <div class="col-sm-12 col-md-6">
-      
-    </div>
-  </div>
-</form>
-
-      </div>
-    </section>
-    
     <footer>
     <section class="mb-4 mt-3">
         <div class="container">
           <div class="row">
-            <div class="col-sm-12 col-md-6 text-center">
-              <h5 class="mt-4 mb-3">ABOUT THIS PAGE</h5>
-              <h6>Made with <i class="fas fa-coffee"></i> and <i class="fas fa-heart"></i> by Scrapper.</h6>
+            <div class="col-sm-12 col-md-12 text-left">
+              {{#each arr}}
+                <h6>{{this}}</h6>
+            {{/each}}
+
+
+            {{req.originalUrl}}
             </div>
-            
-            <div class="col-sm-12 col-md-6 text-center">
-              <h5 class="mt-4 mb-3 mr-3">AROUND THE WORLD</h5>
-              <a href="#"><i class="fab fa-facebook fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-linkedin fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-reddit-square fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-twitter-square fa-2x mr-1"></i></a>
-              <a href="#"><i class="fab fa-instagram fa-2x mr-1"></i></a>
-            </div>
-            
           </div>
-          
-          
         </div>
         </section>
       
@@ -119,7 +83,7 @@
                 <div class="container">
           <div class="row">
             <div class="col-sm-12 text-center">
-              <h6 class="pt-4 pb-4">Scrapper © 2018. All Rights Reversed</h6>
+              {{!-- <h6 class="pt-4 pb-4">Scrapper © 2023. All Rights Reversed</h6> --}}
             </div>
   
           </div>
