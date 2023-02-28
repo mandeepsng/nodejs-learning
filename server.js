@@ -190,7 +190,7 @@ if (!fs.existsSync(folderName)) {
 
         // return true;
     res.render('single', {
-        title: 'Express.js Matery',
+        title: title,
         caption: 'File written successfully',
         article: getmdfile_content,
         currentRoute: '/single',
