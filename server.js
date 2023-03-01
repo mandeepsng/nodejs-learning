@@ -84,7 +84,7 @@ app.get('/single', (req, res) => {
 app.post('/single', async(req, res) => {
 
 
-    const now = new Date();
+const now = new Date();
 const year = now.getFullYear();
 const month = String(now.getMonth() + 1).padStart(2, '0');
 const day = String(now.getDate()).padStart(2, '0');
@@ -100,81 +100,92 @@ if (!fs.existsSync(folderName)) {
 
     const { url } = req.body
 
+
+
+    fetchUrl(url)
+        .then(response => {
+          // console.log(`Fetch data : ${response}`)
+          console.log(response.firstName)
+
+          const title = response.title;
+          const readMdfile = response.readfile;
+
+
+          const getmdfile_content = fs.readFileSync(readMdfile, 'utf-8');
+
+
+          res.render('single', {
+            title: 'Single post',
+            postname: title,
+            caption: 'File written successfully',
+            article: getmdfile_content,
+            currentRoute: '/single',
+    
+        });
+
+
+        })
+        .catch(err => {
+          console.log(err)
+        })
     // res.send(url);
 
-    const response = await axios.get(url);
-    const data = response.data;
-    const $ = cheerio.load(data);
+//     const response = await axios.get(url);
+//     const data = response.data;
+//     const $ = cheerio.load(data);
     
-    const title = $('h1.entry-title').text();
+//     const title = $('h1.entry-title').text();
 
-        const slug = slugify(title, {
-          lower:true,
-          strict:true
-        });
+//         const slug = slugify(title, {
+//           lower:true,
+//           strict:true
+//         });
         
-        const body = $('.single-body').text();
+//         const body = $('.single-body').text();
         
-        const quote = $('.quote').text();
+//         const quote = $('.quote').text();
         
-        const imgUrl = 'https://codelist.cc'+$('.single-body img').attr('src');
+//         const imgUrl = 'https://codelist.cc'+$('.single-body img').attr('src');
         
-        let description = body.replace(quote, "");
-        
-        
-        const urls = quote.split('https');
-        
-        // Remove the empty string at the beginning of the array
-        urls.shift();
-        
-        // Add the "https" prefix back to each URL
-        for (let i = 0; i < urls.length; i++) {
-          urls[i] = 'https' + urls[i];
-        }
-        
-        const currentDate = new Date();
-        const formattedDate = currentDate.toISOString();
-        
-        console.log(formattedDate);
+//         let description = body.replace(quote, "");
         
         
-        // console.log(urls);
+//         const urls = quote.split('https');
+        
+//         // Remove the empty string at the beginning of the array
+//         urls.shift();
+        
+//         // Add the "https" prefix back to each URL
+//         for (let i = 0; i < urls.length; i++) {
+//           urls[i] = 'https' + urls[i];
+//         }
+        
+//         const currentDate = new Date();
+//         const formattedDate = currentDate.toISOString();
+        
+//         console.log(formattedDate);
+        
+//         const fileName = `${slug}.md`; // replace with your file name
+        
+// ///////////////////////////////////////////////////////////////////
 
-        const content = `
-        ---
-        title: ${title} 
-        date: ${formattedDate}
-        slug: ${slug}
-        image: ${imgUrl}
-        ---
-                
-        ${description}
-        ${urls.map((item) => `> [${item}](${item})`).join('\n')}
-        `;
-        
-        console.log('asdasd')
-        
-        const fileName = `${slug}.md`; // replace with your file name
-        
-///////////////////////////////////////////////////////////////////
+//   // Render the view with the constants data
+//   const template = Handlebars.compile(fs.readFileSync('views/samplemd.hbs', 'utf8'));
 
-  // Render the view with the constants data
-  const template = Handlebars.compile(fs.readFileSync('views/samplemd.hbs', 'utf8'));
+//   const markdown = template({
+//     title: title,
+//     formattedDate: formattedDate,
+//     slug: slug,
+//     imgUrl: imgUrl,
+//     description: description,
+//     urls: urls,
+// });
 
-  const markdown = template({
-    title: title,
-    formattedDate: formattedDate,
-    slug: slug,
-    imgUrl: imgUrl,
-    description: description,
-    urls: urls,
-});
+//   // Write the Markdown file
+//   fs.writeFileSync(`${folderName}/${fileName}`, markdown);
+//     const readfile = `${folderName}/${fileName}`;
 
-  // Write the Markdown file
-  fs.writeFileSync(`${folderName}/${fileName}`, markdown);
-    const readfile = `${folderName}/${fileName}`;
-
-  const getmdfile_content = fs.readFileSync(readfile, 'utf-8');
+//   const getmdfile_content = fs.readFileSync(readfile, 'utf-8');
 
   // Convert the MD to HTML using marked
 //   const html = marked(getmdfile_content);
@@ -189,14 +200,14 @@ if (!fs.existsSync(folderName)) {
         // });
 
         // return true;
-    res.render('single', {
-        title: 'Single post',
-        postname: title,
-        caption: 'File written successfully',
-        article: getmdfile_content,
-        currentRoute: '/single',
+    // res.render('single', {
+    //     title: 'Single post',
+    //     postname: title,
+    //     caption: 'File written successfully',
+    //     article: getmdfile_content,
+    //     currentRoute: '/single',
 
-    });
+    // });
 
 
 });
@@ -227,11 +238,40 @@ app.post('/all', async(req, res) => {
         arr.push(href);
     });
     // res.send( `${arr}`);
-    
+
+
+    // all foreach start
+
+    const filenames = [];
+
+    arr.forEach((url , index) => {
+      
+      setTimeout( () => {
+       
+       var dd = fetchUrl(url)
+        // .then(ress => {
+        //   console.log(ress)
+        // })
+        // .catch(err => {
+        //   console.log(err)
+        // })
+        console.log(`Fetch data : ${dd}`);
+        // filenames.push(res);
+
+        // fs.writeFile(`error.log`, res, (err) => {
+        //   if (err) throw err;
+        //   console.log('The file has been saved!');
+        // });
+
+      }, index * 5000 );
+
+    });
+
     res.render('all', {
         title: 'All Post',
         arr: arr,
         currentRoute: '/all',
+        filenames: filenames,
 
     });
 
@@ -240,13 +280,84 @@ app.post('/all', async(req, res) => {
 
 /////////////////////////////////////////////////////////////////////
 
-// request('https://codelist.cc/en/', (error, response, html) => {
-//   if (!error && response.statusCode == 200) {
-//     const $ = cheerio.load(html);
-//     const title = $('title').text();
-//     console.log(title);
-//   }
-// });
+async function fetchUrl(url){
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const folderName = `${year}-${month}-${day}`;
+  
+  
+  if (!fs.existsSync(folderName)) {
+    fs.mkdirSync(folderName);
+    console.log(`Created folder: ${folderName}`);
+  } else {
+    console.log(`Folder ${folderName} already exists.`);
+  }
+
+  const respon = await axios.get(url)
+  const $ = cheerio.load(respon.data);
+  // Use Cheerio to extract data from the HTML
+  var title = $('h1.entry-title').text();
+
+  const slug = slugify(title, {
+    lower:true,
+    strict:true
+  });
+
+
+  const body = $('.single-body').text();
+        
+  const quote = $('.quote').text();
+  
+  const imgUrl = 'https://codelist.cc'+$('.single-body img').attr('src');
+  
+  let description = body.replace(quote, "");
+        
+        
+  const urls = quote.split('https');
+  
+  // Remove the empty string at the beginning of the array
+  urls.shift();
+  
+  // Add the "https" prefix back to each URL
+  for (let i = 0; i < urls.length; i++) {
+    urls[i] = 'https' + urls[i];
+  }
+  
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString();
+  const fileName = `${slug}.md`; // replace with your file name
+
+    // Render the view with the constants data
+    const template = Handlebars.compile(fs.readFileSync('views/samplemd.hbs', 'utf8'));
+
+    const markdown = template({
+      title: title,
+      formattedDate: formattedDate,
+      slug: slug,
+      imgUrl: imgUrl,
+      description: description,
+      urls: urls,
+  });
+  
+    // Write the Markdown file
+    fs.writeFileSync(`${folderName}/${fileName}`, markdown);
+    const readfile = `${folderName}/${fileName}`;
+  
+    const getmdfile_content = fs.readFileSync(readfile, 'utf-8');
+
+    var data = {
+       readfile: readfile,
+       title: title,
+    }
+    return data;
+
+}
+
+
+// Loop through the URLs and fetch each one
 
 app.get('/sync', async (req, res) => {
     const data = await fs.readFile('/path/to/file', 'utf8')
@@ -260,15 +371,15 @@ app.get('/demo', async (req, res) => {
 
 
     const data = 'Hello, world!'
-const filePath = 'file.txt'
+    const filePath = 'file.txt'
 
-fs.writeFile(filePath, data, (err) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  console.log('File written successfully')
-})
+    fs.writeFile(filePath, data, (err) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      console.log('File written successfully')
+    })
 
 // axios.get('https://mojoauth.com/blog/rest-api-authentication/')
 //   .then(response => {
@@ -323,12 +434,12 @@ app.get('/contact', (req, res) => {
 
 // get current date with yy-mm-dd format
 
-const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const day = String(now.getDate()).padStart(2, '0');
-const formattedDate = `${year}-${month}-${day}`;
-console.log(formattedDate);
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+  console.log(formattedDate);
 
 const folderName = formattedDate;
 
