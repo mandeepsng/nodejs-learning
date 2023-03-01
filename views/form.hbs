@@ -8,7 +8,7 @@
 <body>
   <div class="container">
     <h1>Scrap</h1>
-    <form method="post" action="/contact">
+    <form id="myform" method="post" action="/contact">
       <div class="form-group">
         <label for="url">url:</label>
         <input type="text" id="url" name="url" class="form-control">
@@ -18,7 +18,40 @@
     </form>
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  {{!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+const myJQuery = $.noConflict();
+  myJQuery(function() {
+
+
+  myJQuery('#myform').submit(function(event) {
+    event.preventDefault();
+    var data = myJQuery(this).serialize();
+
+    console.log(data);
+
+    myJQuery.ajax({
+      type: 'POST',
+      url: '/contact',
+      data: data,
+      success: function(response) {
+        alert(response);
+      },
+      error: function(response) {
+        var errors = response.responseJSON.errors;
+        var message = '';
+        for (var i = 0; i < errors.length; i++) {
+          message += errors[i].msg + '\n';
+        }
+        alert(message);
+      }
+    });
+  });
+});
+
+</script>
+
 </body>
 </html>

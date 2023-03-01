@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const slugify = require('slugify')
 const Handlebars = require('handlebars');
 
+
 const puppeteer = require('puppeteer');
 
 const {fetch_data} = require('./controllers/messages.controller');
@@ -249,13 +250,13 @@ app.post('/all', async(req, res) => {
       setTimeout( () => {
        
        var dd = fetchUrl(url)
-        // .then(ress => {
-        //   console.log(ress)
-        // })
-        // .catch(err => {
-        //   console.log(err)
-        // })
-        console.log(`Fetch data : ${dd}`);
+        .then(ress => {
+          console.log(ress.title)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        // console.log(`Fetch data : ${dd}`);
         // filenames.push(res);
 
         // fs.writeFile(`error.log`, res, (err) => {
@@ -263,20 +264,34 @@ app.post('/all', async(req, res) => {
         //   console.log('The file has been saved!');
         // });
 
+      //   res.render('all', {
+      //     title: 'All Post',
+      //     arr: arr,
+      //     currentRoute: '/all',
+      //     filenames: filenames,
+  
+      // });
+
+
       }, index * 5000 );
 
     });
 
-    res.render('all', {
-        title: 'All Post',
-        arr: arr,
-        currentRoute: '/all',
-        filenames: filenames,
+    // res.render('all', {
+    //     title: 'All Post',
+    //     arr: arr,
+    //     currentRoute: '/all',
+    //     filenames: filenames,
 
-    });
+    // });
 
 
 });
+
+/////////////////////////////////////////////////////////////////////
+
+
+
 
 /////////////////////////////////////////////////////////////////////
 
@@ -352,6 +367,15 @@ async function fetchUrl(url){
        readfile: readfile,
        title: title,
     }
+
+    // var show_data = `\n${title}\n\n`
+
+    // fs.writeFile(`error.log`, title, (err) => {
+    //       if (err) throw err;
+    //       console.log('The file has been saved!');
+    //     });
+
+        
     return data;
 
 }
@@ -415,7 +439,7 @@ app.get('/contact', (req, res) => {
   app.post('/contact', async(req, res) => {
 
 
-
+res.send('dddddd');
     const { url } = req.body
     // Do something with the form data, such as sending an email
     const codelisturl = 'https://codelist.cc/pg/3/';
@@ -545,6 +569,40 @@ ${urls.map((item) => `> [${item}](${item})`).join('\n')}
     
   })
 
+
+  app.post('/demo', function(req, res) {
+    const data = {
+      id: 1,
+      message: 'Hello from server!'
+    };
+    res.json(data);
+  });
+
+
+  app.post('/data', async function(req, res) {
+    var dataa = [
+      { name: 'John', value: 1 },
+    ];
+    
+    // const { url } = req.body
+    
+
+    return dataa;
+    // Do something with the form data, such as sending an email
+    const response = await axios.get(url);
+    const data = response.data;
+    var $ = cheerio.load(data);
+    const arr = [];
+    // Use Cheerio selectors to extract data from the HTML
+    $('h3.post__title.typescale-2').each((i, element) => {
+        // console.log($(element).text());
+        const links = $(element).find('a');
+        const href = links.attr('href');
+        // console.log(href);
+        arr.push(href);
+    });
+
+  });
 
 
 
