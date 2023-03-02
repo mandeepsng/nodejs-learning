@@ -157,18 +157,14 @@ app.post('/url', function(req, res) {
   var md = fetchUrl(url)
   .then( (response)=>{
     console.log('ddddd '+ response);
-    res.send({id: id, title: response});
+    res.send({id: id, title: response.title});
 
   })
   .catch((err) => {
     console.log(err);
   });
   
-  // console.log('md: ' + md);
 
-
-  // Send response back to client
-  // res.send('data send');
 });
 
 
@@ -318,16 +314,8 @@ async function fetchUrl(url){
        readfile: readfile,
        title: title,
     }
-
-    // var show_data = `\n${title}\n\n`
-
-    // fs.writeFile(`error.log`, title, (err) => {
-    //       if (err) throw err;
-    //       console.log('The file has been saved!');
-    //     });
-
         
-    return title;
+    return data;
     
 
 }
@@ -391,7 +379,7 @@ app.get('/contact', (req, res) => {
   app.post('/contact', async(req, res) => {
 
 
-res.send('dddddd');
+  res.send('dddddd');
     const { url } = req.body
     // Do something with the form data, such as sending an email
     const codelisturl = 'https://codelist.cc/pg/3/';
@@ -529,33 +517,6 @@ ${urls.map((item) => `> [${item}](${item})`).join('\n')}
     };
     res.json(data);
   });
-
-
-  app.post('/data', async function(req, res) {
-    var dataa = [
-      { name: 'John', value: 1 },
-    ];
-    
-    // const { url } = req.body
-    
-
-    return dataa;
-    // Do something with the form data, such as sending an email
-    const response = await axios.get(url);
-    const data = response.data;
-    var $ = cheerio.load(data);
-    const arr = [];
-    // Use Cheerio selectors to extract data from the HTML
-    $('h3.post__title.typescale-2').each((i, element) => {
-        // console.log($(element).text());
-        const links = $(element).find('a');
-        const href = links.attr('href');
-        // console.log(href);
-        arr.push(href);
-    });
-
-  });
-
 
 
 app.listen(PORT, () => {

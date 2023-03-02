@@ -116,53 +116,48 @@
     $(document).ready(function() {
 
     
-  const linksdata = [];  
-  var links = $('.links');
+    const linksdata = [];  
+    var links = $('.links');
 
-  $.each(links, function(index, value){
-   var url = $(this).text();
-    linksdata.push(url);
-  });
+    $.each(links, function(index, value){
+    var url = $(this).text();
+      linksdata.push(url);
+    });
 
-  var arrayCount = linksdata.length;
+    var arrayCount = linksdata.length;
 
-          var counter = 0;
+            var counter = 0;
 
-          var intervalId = setInterval(function() {
+            var intervalId = setInterval(function() {
 
-          if (counter > arrayCount) {
-          clearInterval(intervalId);
-          return;
-          }
-
-
-        var formData = {
-          url: linksdata[counter],
-          id: counter,
-        }; 
-
-        console.log(counter)
-
-          $.ajax({
-          url: '/url',
-          type: 'POST',
-          data: formData,
-          success: function(data) {
-          // Append the name value pairs to the data div
-          //for (var i = 0; i < data.length; i++) {
-            //      var pair = data[i];
-              //    $('#data').append('<div>' + pair.name + ': ' + counter + '</div>');
-          //}
-
-          $('#'+data.id).html(data.title+ ' (Done)' ).css({'color':'blue', 'font-size' : '20px'} );
-
-          console.log(data)
-          }
-          });
+            if (counter > arrayCount) {
+            clearInterval(intervalId);
+            return;
+            }
 
 
-        counter++;
-        }, 5000);
+          var formData = {
+            url: linksdata[counter],
+            id: counter,
+          }; 
+
+          console.log(counter)
+
+            $.ajax({
+            url: '/url',
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+            // Append the name value pairs to the data div
+            
+              $('#'+data.id).html(data.title+ ' (Done)' ).css({'color':'blue', 'font-size' : '20px'} );
+
+            }
+            });
+
+
+          counter++;
+          }, 5000);
 
     });
   </script>
