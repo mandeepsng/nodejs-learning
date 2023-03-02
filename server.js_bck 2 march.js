@@ -16,7 +16,6 @@ const {fetch_data} = require('./controllers/messages.controller');
 const friendsRouter = require('./routes/friends.routes');
 
 const messagesRouter = require('./routes/messages.routes');
-const { response } = require('express');
 
 
 
@@ -40,7 +39,6 @@ process.on('uncaughtException', (err, origin) => {
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json());
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
@@ -131,6 +129,86 @@ if (!fs.existsSync(folderName)) {
         .catch(err => {
           console.log(err)
         })
+    // res.send(url);
+
+//     const response = await axios.get(url);
+//     const data = response.data;
+//     const $ = cheerio.load(data);
+    
+//     const title = $('h1.entry-title').text();
+
+//         const slug = slugify(title, {
+//           lower:true,
+//           strict:true
+//         });
+        
+//         const body = $('.single-body').text();
+        
+//         const quote = $('.quote').text();
+        
+//         const imgUrl = 'https://codelist.cc'+$('.single-body img').attr('src');
+        
+//         let description = body.replace(quote, "");
+        
+        
+//         const urls = quote.split('https');
+        
+//         // Remove the empty string at the beginning of the array
+//         urls.shift();
+        
+//         // Add the "https" prefix back to each URL
+//         for (let i = 0; i < urls.length; i++) {
+//           urls[i] = 'https' + urls[i];
+//         }
+        
+//         const currentDate = new Date();
+//         const formattedDate = currentDate.toISOString();
+        
+//         console.log(formattedDate);
+        
+//         const fileName = `${slug}.md`; // replace with your file name
+        
+// ///////////////////////////////////////////////////////////////////
+
+//   // Render the view with the constants data
+//   const template = Handlebars.compile(fs.readFileSync('views/samplemd.hbs', 'utf8'));
+
+//   const markdown = template({
+//     title: title,
+//     formattedDate: formattedDate,
+//     slug: slug,
+//     imgUrl: imgUrl,
+//     description: description,
+//     urls: urls,
+// });
+
+//   // Write the Markdown file
+//   fs.writeFileSync(`${folderName}/${fileName}`, markdown);
+//     const readfile = `${folderName}/${fileName}`;
+
+//   const getmdfile_content = fs.readFileSync(readfile, 'utf-8');
+
+  // Convert the MD to HTML using marked
+//   const html = marked(getmdfile_content);
+
+  // Send a success response
+//   res.send('File written successfully');
+
+///////////////////////////////////////////////////////////////////
+        // fs.writeFile(`${folderName}/${fileName}`, content, (err) => {
+        //   if (err) throw err;
+        //   console.log('The file has been saved!');
+        // });
+
+        // return true;
+    // res.render('single', {
+    //     title: 'Single post',
+    //     postname: title,
+    //     caption: 'File written successfully',
+    //     article: getmdfile_content,
+    //     currentRoute: '/single',
+
+    // });
 
 
 });
@@ -142,36 +220,6 @@ app.get('/all', (req, res) => {
 
     });
 });
-
-
-app.post('/url', function(req, res) {
-  // Extract data from request body
-  const url = req.body.url;
-  const id = req.body.id;
-  
-  // Do something with the data
-  console.log('url: ' + url);
-  console.log('id: ' + id);
-  
-  
-  var md = fetchUrl(url)
-  .then( (response)=>{
-    console.log('ddddd '+ response);
-    res.send({id: id, title: response});
-
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-  
-  // console.log('md: ' + md);
-
-
-  // Send response back to client
-  // res.send('data send');
-});
-
-
 
 app.post('/all', async(req, res) => {
 
@@ -201,13 +249,13 @@ app.post('/all', async(req, res) => {
       
       setTimeout( () => {
        
-      //  var dd = fetchUrl(url)
-      //   .then(ress => {
-      //     console.log(ress.title)
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
+       var dd = fetchUrl(url)
+        .then(ress => {
+          console.log(ress.title)
+        })
+        .catch(err => {
+          console.log(err)
+        })
         // console.log(`Fetch data : ${dd}`);
         // filenames.push(res);
 
@@ -229,12 +277,13 @@ app.post('/all', async(req, res) => {
 
     });
 
-    res.render('all', {
-        title: 'All Post',
-        arr: arr,
-        currentRoute: '/all',
-        filenames: filenames,
-    });
+    // res.render('all', {
+    //     title: 'All Post',
+    //     arr: arr,
+    //     currentRoute: '/all',
+    //     filenames: filenames,
+
+    // });
 
 
 });
@@ -327,8 +376,7 @@ async function fetchUrl(url){
     //     });
 
         
-    return title;
-    
+    return data;
 
 }
 
