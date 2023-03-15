@@ -77,13 +77,15 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/single', (req, res) => {
+app.get('/blog', (req, res) => {
     
     res.render('single', {
         title: 'Single Post',
         currentRoute: '/single',
     });
 });
+
+
 app.post('/single', async(req, res) => {
 
 
@@ -313,11 +315,8 @@ async function fetchUrl(url){
   let body_data = body.replace(quote, "");
   let description = body_data.replace(/&/g, '');
         
-  description = description.replace(/'/g, ''); 
-  description = description.replace(/&/g, 'and');  
-
-  // description.replace('&amp;','')
-  // title.replace('&amp;','')
+  description.replace('&amp;','')
+  title.replace('&amp;','')
   
   const urls = quote.split('https');
   
@@ -558,37 +557,6 @@ ${urls.map((item) => `> [${item}](${item})`).join('\n')}
     };
     res.json(data);
   });
-
-
-  app.get('/blog', function(req, res) {
-    // const data = {
-    //   id: 1,
-    //   message: 'Hello from server!'
-    // };
-    // res.json(data);
-
-
-    const url = 'https://code.yoblogger.com/how-to-upload-a-post-to-instagram-using-the-instagram-api-in-node-js/';
-
-    axios.get(url).then(response => {
-      const $ = cheerio.load(response.data);
-    
-      const title = $('h1.entry-title').text().trim();
-      const content = $('.entry-content').html();
-    
-      console.log(title);
-      // res.send(content);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    
-
-    res.send('sdfsdf');
-
-  });
-
-
 
 
 app.listen(PORT, () => {

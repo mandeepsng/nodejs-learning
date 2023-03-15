@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>All Post</title>
+  <title>All Links Only</title>
 
   <!--Boostrap 4.0.0 CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -52,7 +52,7 @@
         <div class="jumbotron mb-1">
           <div class="row">
             <div class="col-sm-12 col-md-12">
-                <form method="post" action="/all">
+                <form method="post" action="/all-links-only">
                 <div class="form-group">
                         <label for="url">url:</label>
                         <input type="text" id="url" name="url" class="form-control">
@@ -72,7 +72,8 @@
           <div class="row">
             <div class="col-sm-12 col-md-12 text-left">
               {{#each arr}}
-                <h6 class="links" id="{{@index}}">{{this}}</h6>
+                {{!-- <h6 class="links" id="{{@index}}">{{this}}</h6> --}}
+                <h6>{{this}}</h6>
               {{/each}}
 
 
@@ -119,13 +120,13 @@
     $(document).ready(function() {
 
     
-    const linksdata = [];  
+    {{!-- const linksdata = [];  
     var links = $('.links');
 
     $.each(links, function(index, value){
     var url = $(this).text();
       linksdata.push(url);
-    });
+    }); --}}
 
     var arrayCount = linksdata.length;
 
