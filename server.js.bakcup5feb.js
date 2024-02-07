@@ -84,13 +84,6 @@ app.get('/single', (req, res) => {
         currentRoute: '/single',
     });
 });
-
-
-
-
-
-
-
 app.post('/single', async(req, res) => {
 
 
@@ -111,17 +104,11 @@ if (!fs.existsSync(folderName)) {
     const { url } = req.body
 
 
-    const result = await fetchData(url);
-  //   res.send(result);
 
-  // console.log('result=====================', result);
-  // return;
-
-
-    fetchUrl(url)
+    await fetchUrl(url)
         .then(response => {
           // console.log(`Fetch data : ${response}`)
-          // console.log(response.firstName)
+          console.log(response.firstName)
 
           const title = response.title;
           const readMdfile = response.readfile;
@@ -137,7 +124,7 @@ if (!fs.existsSync(folderName)) {
             article: getmdfile_content,
             currentRoute: '/single',
     
-          });
+        });
 
 
         })
@@ -147,6 +134,7 @@ if (!fs.existsSync(folderName)) {
 
 
 });
+
 app.get('/all', (req, res) => {
     res.render('all', {
         title: 'All Post',
@@ -190,7 +178,7 @@ app.post('/all-links-only', async(req, res) => {
 });
 
 
-app.post('/url', async function(req, res) {
+app.post('/url', function(req, res) {
   // Extract data from request body
   const url = req.body.url;
   const id = req.body.id;
@@ -199,16 +187,10 @@ app.post('/url', async function(req, res) {
   console.log('url: ' + url);
   console.log('id: ' + id);
   
-  var dd = await fetchData(url);
-
-  console.log('dd', url)
-  console.log('title', dd.title)
-  // res.send({id: dd.id, title: dd.title});
   
-  var md = await fetchUrl(url)
+  var md = fetchUrl(url)
   .then( (response)=>{
     console.log('ddddd '+ response);
-    // console.log('ddddd title '+ response.title);
     res.send({id: id, title: response.title});
 
   })
@@ -225,7 +207,7 @@ app.post('/all', async(req, res) => {
   
   const { url } = req.body
 
-  await axios.get('https://app.scrapingbee.com/api/v1/', {
+  axios.get('https://app.scrapingbee.com/api/v1/', {
       params: {
           'api_key': 'CNZZVEHVGDHXP3529XN77FUAWWKGCWKBDGPFMLVFLAMPF6U61GFZE985CV2Y4BLB8X7PJENPDSCR5BW7',
           'url': url,  
@@ -233,50 +215,72 @@ app.post('/all', async(req, res) => {
   }).then(function (response) {
       // handle success
       const data = response.data;
-      // console.log(data);
-    
-        // return;
-        // Do something with the form data, such as sending an email
-        // const response = await axios.get(url);
-        // const data = response.data;
-        var $ = cheerio.load(data);
-        const arr = [];
-        // Use Cheerio selectors to extract data from the HTML
-        $('h3.post__title.typescale-2').each((i, element) => {
-            // console.log($(element).text());
-            const links = $(element).find('a');
-            const href = links.attr('href');
-            // console.log(href);
-            arr.push(href);
-        });
-        // res.send( `${arr}`);
-
-
-        // all foreach start
-
-        const filenames = [];
-
-        arr.forEach((url , index) => {
-          
-          setTimeout( () => {
-          
-
-          }, index * 5000 );
-
-        });
-
-        res.render('all', {
-            title: 'All Post',
-            arr: arr,
-            currentRoute: '/all',
-            filenames: filenames,
-        });
-
-
-    
+      console.log(data);
     }).catch(function (error) {
       // handle error
       console.error(error);
+    });
+    
+
+
+// return;
+    // Do something with the form data, such as sending an email
+    const response = await axios.get(url);
+    const data = response.data;
+    var $ = cheerio.load(data);
+    const arr = [];
+    // Use Cheerio selectors to extract data from the HTML
+    $('h3.post__title.typescale-2').each((i, element) => {
+        // console.log($(element).text());
+        const links = $(element).find('a');
+        const href = links.attr('href');
+        // console.log(href);
+        arr.push(href);
+    });
+    // res.send( `${arr}`);
+
+
+    // all foreach start
+
+    const filenames = [];
+
+    arr.forEach((url , index) => {
+      
+      setTimeout( () => {
+       
+      //  var dd = fetchUrl(url)
+      //   .then(ress => {
+      //     console.log(ress.title)
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
+        // console.log(`Fetch data : ${dd}`);
+        // filenames.push(res);
+
+        // fs.writeFile(`error.log`, res, (err) => {
+        //   if (err) throw err;
+        //   console.log('The file has been saved!');
+        // });
+
+      //   res.render('all', {
+      //     title: 'All Post',
+      //     arr: arr,
+      //     currentRoute: '/all',
+      //     filenames: filenames,
+  
+      // });
+
+
+      }, index * 5000 );
+
+    });
+
+    res.render('all', {
+        title: 'All Post',
+        arr: arr,
+        currentRoute: '/all',
+        filenames: filenames,
     });
 
 
@@ -284,21 +288,7 @@ app.post('/all', async(req, res) => {
 
 /////////////////////////////////////////////////////////////////////
 
-async function fetchData(url) {
-  try {
-      const response = await axios.get('https://app.scrapingbee.com/api/v1/', {
-          params: {
-              'api_key': 'CNZZVEHVGDHXP3529XN77FUAWWKGCWKBDGPFMLVFLAMPF6U61GFZE985CV2Y4BLB8X7PJENPDSCR5BW7',
-              'url': url,  
-          } 
-      });
-      return response.data;
-  } catch (error) {
-      // Handle error
-      console.error(error);
-      throw error; // Rethrow the error to handle it outside the function
-  }
-}
+
 
 
 /////////////////////////////////////////////////////////////////////
@@ -319,13 +309,10 @@ async function fetchUrl(url){
     console.log(`Folder ${folderName} already exists.`);
   }
 
-  const respon = await fetchData(url)
-  const $ = cheerio.load(respon);
+  const respon = await axios.get(url)
+  const $ = cheerio.load(respon.data);
   // Use Cheerio to extract data from the HTML
-  var title = $('title').text();
-
-  console.log('fetchUrl = ', url);
-  console.log('fetchUrl = title', title);
+  var title = $('h1.entry-title').text();
 
   title.replace(/[^a-zA-Z0-9]/g, '');
 
@@ -437,14 +424,14 @@ app.get('/demo', async (req, res) => {
 });
 
 app.get('/contact', (req, res) => {
-    res.send(`
-      <h1>Scrape</h1>
-      <form method="post" action="/contact">
-        <label for="url">URL:</label>
-        <input type="text" id="url" name="url"><br>
-        <input type="submit" value="Send">
-      </form>
-    `)
+    // res.send(`
+    //   <h1>Scrape</h1>
+    //   <form method="post" action="/contact">
+    //     <label for="url">URL:</label>
+    //     <input type="text" id="url" name="url"><br>
+    //     <input type="submit" value="Send">
+    //   </form>
+    // `)
     res.render('form');
   })
   
@@ -582,20 +569,7 @@ ${urls.map((item) => `> [${item}](${item})`).join('\n')}
   })
 
 
-  app.get('/demo2', async function(req, res) {
-      try {
-          // Call the asynchronous function and await the result
-          const result = await fetchData('https://codelist.cc/scripts3/252895-saas-theme-for-premium-url-shortener-v55.html');
-          console.log('result=====================', result);
-          res.send(result); // Send the result back to the client
-      } catch (error) {
-          // Handle error
-          console.error(error);
-          res.status(500).send('Internal Server Error'); // Send an error response
-      }
-  });
-
- app.post('/demo', function(req, res) {
+  app.post('/demo', function(req, res) {
     const data = {
       id: 1,
       message: 'Hello from server!'
